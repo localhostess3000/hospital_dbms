@@ -10,7 +10,7 @@ console.log(process.env.DB_PASSWORD);
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "narnia123",
+  password: "<your-pass-here>",
   database: "hospital",
 });
 

@@ -1,16 +1,16 @@
 import logo from "./logo.svg";
 import "./App.css";
-import Products from "./pages/Products";
+import Doctors from "./pages/Doctors";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AddProduct from "./pages/AddProduct";
+import AddDoctor from "./pages/AddDoctor";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/addProduct" element={<AddProduct />} />
-        <Route path="/" element={<Products/>} />
-        <Route path="/updateProduct/:id" element={<AddProduct />} />
+      <Route path="/" element={<Doctors/>} />
+        <Route path="/addDoctor" element={<AddDoctor />} />
+        <Route path="/updateDoctor/:id" element={<AddDoctor />} />
 
       </Routes>
     </BrowserRouter>

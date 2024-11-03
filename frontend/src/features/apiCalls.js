@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const getProducts = async () => {
+export const getDoctors = async () => {
   try {
-    const res = await axios.get("http://localhost:8081/products/");
+    const res = await axios.get("http://localhost:8081/doctors/");
     return res.data;
   } catch (err) {
     console.log(err);
@@ -10,9 +10,9 @@ export const getProducts = async () => {
   }
 };
 
-export const addProduct = async (product) => {
+export const addDoctor = async (doctor) => {
   try {
-    const res = await axios.post("http://localhost:8081/products/", product);
+    const res = await axios.post("http://localhost:8081/doctors/", doctor);
     return res.data;
   } catch (err) {
     console.log(err);
@@ -20,11 +20,11 @@ export const addProduct = async (product) => {
   }
 };
 
-export const updateProduct = async (product, productId) => {
+export const updateDoctor = async (doctor, doctorId) => {
   try {
     const res = await axios.put(
-      "http://localhost:8081/products/" + productId,
-      product
+      "http://localhost:8081/doctors/" + doctorId,
+      doctor
     );
     return res.data;
   } catch (err) {
@@ -33,36 +33,21 @@ export const updateProduct = async (product, productId) => {
     };
   }
 };
-export const deleteProduct = async (productId, productThumbnail) => {
+export const deleteDoctor = async (doctorId) => {
   try {
     const res = await axios.delete(
-      "http://localhost:8081/products/" + productId
+      "http://localhost:8081/doctors/" + doctorId
     );
     return res.data;
   } catch (err) {
     return { error: err };
   }
 };
-export const getProductById = async (id) => {
+export const getDoctorById = async (id) => {
   try {
-    const res = await axios.get("http://localhost:8081/products/" + id);
-    return res.data
+    const res = await axios.get("http://localhost:8081/doctors/" + id);
+    return res.data;
   } catch (err) {
-    return {error: err.message}
-  }
-};
-
-
-export const uploadProductThumbnail = async (formData) => {
-  try {
-    const res = await axios.post(
-      "http://localhost:8081/thumbnailUpload/",
-      formData
-    );
-    return res.data
-      
-  } catch (err) {
-    console.log(err);
-    return {error: err.message};
+    return { error: err.message };
   }
 };

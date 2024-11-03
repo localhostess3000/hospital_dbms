@@ -33,6 +33,7 @@ export const updateDoctor = async (doctor, doctorId) => {
     };
   }
 };
+
 export const deleteDoctor = async (doctorId) => {
   try {
     const res = await axios.delete(

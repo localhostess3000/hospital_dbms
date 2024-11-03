@@ -19,26 +19,30 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/doctors", (req, res) => {
-  const q = "select * from doctor";
+  const q = "SELECT * FROM doctor";
   db.query(q, (err, data) => {
-    console.log(err, data);
     if (err) return res.json({ error: err.sqlMessage });
-    else return res.json({ data });
+    return res.json({ data });
   });
 });
 
 app.post("/doctors", (req, res) => {
-  const q = `insert into doctor(doctorId, firstName, lastName, department) values(?)`;
-  const values = [...Object.values(req.body)];
-  console.log("insert", values);
+  const q =
+    "INSERT INTO doctor (doctorId, firstName, lastName, department) VALUES (?)";
+  const values = [
+    parseInt(req.body.doctorId), // Convert to integer
+    req.body.firstName,
+    req.body.lastName,
+    req.body.department,
+  ];
+
   db.query(q, [values], (err, data) => {
-    console.log(err, data);
     if (err) {
       return res.json({ error: err.sqlMessage });
-    } else return res.json({ data });
+    }
+    return res.json({ data });
   });
 });
-
 // app.get("/products", (req, res) => {
 //   const q = "select * from product";
 //   db.query(q, (err, data) => {
@@ -48,8 +52,6 @@ app.post("/doctors", (req, res) => {
 //     } else return res.json({ data });
 //   });
 // });
-
-
 
 // app.post("/products", (req, res) => {
 //   const q = `insert into product(productId, productTitle, productDescription, productPrice, availableQuantity, productThumbnail)

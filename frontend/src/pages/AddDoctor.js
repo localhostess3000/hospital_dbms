@@ -11,48 +11,53 @@ const AddDoctor = () => {
     department: "",
     doctorId: "",
   });
-  const [selectedImage, setSelectedImage] = useState();
-  const [previewUrl, setPreviewUrl] = useState();
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const getDoctor = async () => {
-      const { data } = await getDoctorById(id);
-      console.log(data);
-      if (data) setDeafaultValue({ ...data[0] });
+      if (id) {
+        const { data } = await getDoctorById(id);
+        if (data) setDeafaultValue({ ...data[0] });
+      }
     };
     getDoctor();
   }, [id]);
 
-  const {firstName, lastName, department, doctorId} = defaultValue;
-  console.log(doctorId);
+  const { firstName, lastName, department, doctorId } = defaultValue;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(e.target);
-    let formData = new FormData(e.target);
-    let fileFormData = new FormData();
+    setError("");
 
+    const formData = new FormData(e.target);
     const values = Object.fromEntries(formData.entries());
+
+    // Generate a random numeric ID if it's a new doctor
     const dId = !doctorId
-      ? values.firstName.toLowerCase().replaceAll(/[\s\t]+/g, "-")
+      ? Math.floor(100000 + Math.random() * 900000)
       : doctorId;
-    fileFormData.append("doctorId", dId);
+
     try {
       if (dId && !!doctorId) {
-        let { data, error } = await updateDoctor(values, doctorId);
+        const { data, error } = await updateDoctor(values, doctorId);
         if (error) throw new Error(error);
-      } else if (dId) {
-        let formValues = {
+        navigate(-1);
+      } else {
+        const formValues = {
           doctorId: dId,
           ...values,
         };
-        let { data, error } = await addDoctor(formValues);
+        const { data, error } = await addDoctor(formValues);
         if (error) throw new Error(error);
+        navigate(-1);
       }
     } catch (err) {
-      console.log(err);
+      setError(err.message);
+      console.error(err);
     }
   };
+
   return (
     <div className="container max-w-5xl py-10">
       <div className="flex space-x-6 mb-10 items-center">
@@ -66,11 +71,17 @@ const AddDoctor = () => {
           {defaultValue.firstName ? "Update Doctor" : "Add Doctor"}
         </h2>
       </div>
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {error}
+        </div>
+      )}
       <div className="flex flex-col">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label>First Name</label>
             <input
+              required
               defaultValue={firstName || ""}
               name="firstName"
               placeholder="Enter First Name..."
@@ -80,6 +91,7 @@ const AddDoctor = () => {
           <div className="mb-4">
             <label>Last Name</label>
             <input
+              required
               defaultValue={lastName || ""}
               name="lastName"
               placeholder="Enter Last Name..."
@@ -89,13 +101,13 @@ const AddDoctor = () => {
           <div className="mb-4">
             <label>Doctor Department</label>
             <textarea
+              required
               defaultValue={department || ""}
               name="department"
               className="resize-none"
               rows={5}
             ></textarea>
           </div>
-
           <div className="flex items-center mb-5">
             <button className="w-full">Submit</button>
           </div>

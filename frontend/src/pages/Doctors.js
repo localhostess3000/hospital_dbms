@@ -24,6 +24,9 @@ const Doctors = () => {
           <button>Add Doctor</button>
         </Link>
       </div>
+
+      <h2>{Doctors.length} Doctors Found</h2>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 gap-y-6 md:gap-6">
         {Doctors.length > 0 ? (
           Doctors.map((doctor) => {

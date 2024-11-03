@@ -17,7 +17,6 @@ const db = mysql.createConnection({
 const app = express();
 app.use(cors());
 app.use(express.json());
-// app.use('/uploads', express.static(path.join(__dirname ,'uploads')));
 
 app.get("/doctors", (req, res) => {
   const q = "select * from doctor";
@@ -25,6 +24,18 @@ app.get("/doctors", (req, res) => {
     console.log(err, data);
     if (err) return res.json({ error: err.sqlMessage });
     else return res.json({ data });
+  });
+});
+
+app.post("/doctors", (req, res) => {
+  const q = `insert into doctor(doctorId, firstName, lastName, department) values(?)`;
+  const values = [...Object.values(req.body)];
+  console.log("insert", values);
+  db.query(q, [values], (err, data) => {
+    console.log(err, data);
+    if (err) {
+      return res.json({ error: err.sqlMessage });
+    } else return res.json({ data });
   });
 });
 
@@ -38,17 +49,7 @@ app.get("/doctors", (req, res) => {
 //   });
 // });
 
-app.post("/doctors", (req, res) => {
-  const q = `insert into doctor(doctorId, firstName, lastName, department) values(?)`;
-  const values = [...Object.values(req.body)];
-  console.log("insert", values);
-  db.query(q, [values], (err, data) => {
-    console.log(err, data);
-    if (err) {
-      return res.json({ error: err.sqlMessage });
-    } else return res.json({ data });
-  });
-});
+
 
 // app.post("/products", (req, res) => {
 //   const q = `insert into product(productId, productTitle, productDescription, productPrice, availableQuantity, productThumbnail)

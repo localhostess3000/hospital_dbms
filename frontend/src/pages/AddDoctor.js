@@ -9,7 +9,7 @@ const AddDoctor = () => {
     firstName: "",
     lastName: "",
     department: "",
-    DoctorId: "",
+    doctorId: "",
   });
   const [selectedImage, setSelectedImage] = useState();
   const [previewUrl, setPreviewUrl] = useState();
@@ -24,19 +24,8 @@ const AddDoctor = () => {
     getDoctor();
   }, [id]);
 
-  // useEffect(() => {
-  //   let url;
-  //   if (selectedImage) {
-  //     url = URL.createObjectURL(selectedImage);
-  //     setPreviewUrl(url);
-  //   }
-  //   return () => {
-  //     URL.revokeObjectURL(url);
-  //   };
-  // }, [selectedImage]);
-
-  const {firstName, lastName, department, DoctorId} = defaultValue;
-  console.log(DoctorId);
+  const {firstName, lastName, department, doctorId} = defaultValue;
+  console.log(doctorId);
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(e.target);
@@ -44,17 +33,17 @@ const AddDoctor = () => {
     let fileFormData = new FormData();
 
     const values = Object.fromEntries(formData.entries());
-    const dId = !DoctorId
+    const dId = !doctorId
       ? values.firstName.toLowerCase().replaceAll(/[\s\t]+/g, "-")
-      : DoctorId;
-    fileFormData.append("DoctorId", dId);
+      : doctorId;
+    fileFormData.append("doctorId", dId);
     try {
-      if (dId && !!DoctorId) {
-        let { data, error } = await updateDoctor(values, DoctorId);
+      if (dId && !!doctorId) {
+        let { data, error } = await updateDoctor(values, doctorId);
         if (error) throw new Error(error);
       } else if (dId) {
         let formValues = {
-          DoctorId: dId,
+          doctorId: dId,
           ...values,
         };
         let { data, error } = await addDoctor(formValues);

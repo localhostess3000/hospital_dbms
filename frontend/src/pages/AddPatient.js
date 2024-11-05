@@ -1,35 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  addDoctor,
-  updateDoctor,
-  deleteDoctor,
-  getDoctorById,
-} from "../features/apiCalls";
+import { addPatient, updatePatient, getPatientById } from "../features/apiCalls";
 
 const BASE_API_URL = "http://localhost:8081";
-const AddDoctor = () => {
+const AddPatient = () => {
   const { id } = useParams();
   const [defaultValue, setDeafaultValue] = useState({
     firstName: "",
     lastName: "",
-    department: "",
-    doctorId: "",
+    gender: "",
+    dob: "",
+    patientId: "",
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getDoctor = async () => {
+    const getPatient = async () => {
       if (id) {
-        const { data } = await getDoctorById(id);
+        const { data } = await getPatientById(id);
         if (data) setDeafaultValue({ ...data[0] });
       }
     };
-    getDoctor();
+    getPatient();
   }, [id]);
 
-  const { firstName, lastName, department, doctorId } = defaultValue;
+  const { firstName, lastName, gender, dob, patientId } = defaultValue;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,22 +34,25 @@ const AddDoctor = () => {
     const formData = new FormData(e.target);
     const values = Object.fromEntries(formData.entries());
 
-    // Generate a random numeric ID if it's a new doctor
-    const dId = !doctorId
+    // Generate a random numeric ID if it's a new patient
+    const pId = !patientId
       ? Math.floor(100000 + Math.random() * 900000)
-      : doctorId;
+      : parseInt(patientId);
 
     try {
-      if (dId && !!doctorId) {
-        const { data, error } = await updateDoctor(values, doctorId);
+      if (pId && !!patientId) {
+        const { data, error } = await updatePatient({ ...values, patientId: pId }, patientId);
         if (error) throw new Error(error);
         navigate(-1);
       } else {
         const formValues = {
-          doctorId: dId,
-          ...values,
+          PatientID: pId, // Use 'PatientID' to match the backend
+          FirstName: values.firstName,
+          LastName: values.lastName,
+          Gender: values.gender,
+          DOB: values.dob,
         };
-        const { data, error } = await addDoctor(formValues);
+        const { data, error } = await addPatient(formValues);
         if (error) throw new Error(error);
         navigate(-1);
       }
@@ -73,7 +72,7 @@ const AddDoctor = () => {
           {"<"}
         </button>
         <h2 className="text--title">
-          {defaultValue.firstName ? "Update Doctor" : "Add Doctor"}
+          {defaultValue.firstName ? "Update Patient" : "Add Patient"}
         </h2>
       </div>
       {error && (
@@ -103,15 +102,28 @@ const AddDoctor = () => {
               type="text"
             />
           </div>
+
           <div className="mb-4">
-            <label>Doctor Department</label>
-            <textarea
+            <label>Gender</label>
+            <input
               required
-              defaultValue={department || ""}
-              name="department"
-              className="resize-none"
-              rows={5}
-            ></textarea>
+              defaultValue={gender || ""}
+              name="gender"
+              placeholder="Enter Gender..."
+              type="text"
+            />
+          </div>
+
+          {/* dob  */}
+          <div className="mb-4">
+            <label>Date of Birth</label>
+            <input
+              required
+              defaultValue={dob || ""}
+              name="dob"
+              placeholder="Enter Date of Birth..."
+              type="date"
+            />
           </div>
           <div className="flex items-center mb-5">
             <button className="w-full">Submit</button>
@@ -122,4 +134,4 @@ const AddDoctor = () => {
   );
 };
 
-export default AddDoctor;
+export default AddPatient;

@@ -20,10 +20,15 @@ const Doctors = () => {
     <div className="container py-10 w-full max-w-5xl">
       <div className="flex justify-between items-center mb-10">
         <h2 className="text--title">Doctors Inventory</h2>
+
+      </div>
+      <Link to="/patients">
+          <button>All Patients</button>
+        </Link>
         <Link to="/addDoctor">
           <button>Add Doctor</button>
         </Link>
-      </div>
+        <br></br>
 
       {/* <h2>{Doctors.length} Doctors Found</h2> */}
 

@@ -14,6 +14,7 @@ const db = mysql.createConnection({
   database: "hospital",
 });
 
+
 const app = express();
 app.use(cors());
 app.use(express.json());

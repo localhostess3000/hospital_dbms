@@ -10,7 +10,7 @@ console.log(process.env.DB_PASSWORD);
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "<your-pass-here>",
+  password: "narnia123",
   database: "hospital",
 });
 
@@ -44,6 +44,22 @@ app.post("/doctors", (req, res) => {
     return res.json({ data });
   });
 });
+
+// fetch patient associated with a doctor
+app.get("/doctors/:doctorId/patients", (req, res) => {
+  const doctorId = req.params.doctorId;
+  const q = "SELECT * FROM patient WHERE doctorId = ?";
+  db.query(q, [doctorId], (err, data) => {
+    if (err) return res.json({ error: err.sqlMessage });
+    return res.json({ data });
+  });
+});
+
+
+
+
+
+
 // app.get("/products", (req, res) => {
 //   const q = "select * from product";
 //   db.query(q, (err, data) => {

@@ -53,13 +53,23 @@ export const getDoctorById = async (id) => {
 };
 
 // all patient realted api calls
+// export const getPatients = async () => {
+//   try {
+//     const res = await axios.get("http://localhost:8081/patients/");
+//     return res.data;
+//   } catch (err) {
+//     console.log(err);
+//     return err;
+//   }
+// };
+
 export const getPatients = async () => {
   try {
     const res = await axios.get("http://localhost:8081/patients/");
-    return res.data;
+    return { data: res.data, error: null };
   } catch (err) {
-    console.log(err);
-    return err;
+    console.error("Error fetching patients:", err);
+    return { data: null, error: err.message };
   }
 };
 
@@ -111,3 +121,33 @@ export const getPatientById = async (id) => {
     return { error: err.message };
   }
 }
+
+export const assignDoctorByName = async (patientFirstName, patientLastName, doctorFirstName, doctorLastName) => {
+  try {
+    const res = await axios.post("http://localhost:8081/assignDoctorToPatient", {
+      patientFirstName, patientLastName, doctorFirstName, doctorLastName
+    });
+    return res.data;
+  } catch (err) {
+    return { error: err };
+  }
+};
+
+export const getPatientsWithDoctors = async () => {
+  try {
+    const res = await axios.get("http://localhost:8081/patientsWithDoctors");
+    return res.data;
+  } catch (err) {
+    return { error: err };
+  }
+};
+
+export const getUnassignedPatients = async () => {
+  try {
+    const res = await axios.get("http://localhost:8081/patients/unassigned");
+    return res.data;
+  } catch (err) {
+    return { error: err };
+  }
+};
+

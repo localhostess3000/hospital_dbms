@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { addPatient, updatePatient, getPatientById } from "../features/apiCalls";
 
-const BASE_API_URL = "http://localhost:8081";
 const AddPatient = () => {
   const { id } = useParams();
-  const [defaultValue, setDeafaultValue] = useState({
+  const [defaultValue, setDefaultValue] = useState({
     firstName: "",
     lastName: "",
     gender: "",
@@ -19,7 +18,7 @@ const AddPatient = () => {
     const getPatient = async () => {
       if (id) {
         const { data } = await getPatientById(id);
-        if (data) setDeafaultValue({ ...data[0] });
+        if (data) setDefaultValue({ ...data[0] });
       }
     };
     getPatient();
@@ -114,7 +113,6 @@ const AddPatient = () => {
             />
           </div>
 
-          {/* dob  */}
           <div className="mb-4">
             <label>Date of Birth</label>
             <input
@@ -135,3 +133,4 @@ const AddPatient = () => {
 };
 
 export default AddPatient;
+

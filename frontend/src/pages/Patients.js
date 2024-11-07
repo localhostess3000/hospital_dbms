@@ -10,7 +10,7 @@ const Patients = () => {
       if (error) {
         console.log(error);
       } else {
-        setPatients(data);
+        setPatients(data.data);
       }
     };
     fetchPatients();

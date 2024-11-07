@@ -10,7 +10,7 @@ const Doctor = ({ DoctorID, FirstName, LastName, Department }) => {
         <img
           className="h-32 w-32"
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-L1M54UjKgcRW_kSObOtR45psjzm7h94NxQ&s"
-        />
+        /> 
 
 
         <div className="flex flex-col p-4">

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import Doctor from "../components/Doctor";
 import { getDoctors } from "../features/apiCalls";
 import { Link } from "react-router-dom";
+
 const Doctors = () => {
   const [Doctors, setDoctors] = useState([]);
+  
   useEffect(() => {
     const fetchDoctors = async () => {
       const { data, error } = await getDoctors();
@@ -20,17 +22,20 @@ const Doctors = () => {
     <div className="container py-10 w-full max-w-5xl">
       <div className="flex justify-between items-center mb-10">
         <h2 className="text--title">Doctors Inventory</h2>
-
       </div>
-      <Link to="/patients">
+      
+      {/* Button group */}
+      <div className="flex space-x-4 mb-4">
+        <Link to="/patients">
           <button>All Patients</button>
         </Link>
         <Link to="/addDoctor">
           <button>Add Doctor</button>
         </Link>
-        <br></br>
-
-      {/* <h2>{Doctors.length} Doctors Found</h2> */}
+        <Link to="/assignDoctor">
+          <button>Assign Doctor</button>
+        </Link>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 gap-y-6 md:gap-6">
         {Doctors.length > 0 ? (

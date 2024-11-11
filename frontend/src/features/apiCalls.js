@@ -38,6 +38,7 @@ export const updateDoctor = async (doctor, doctorId) => {
 export const deleteDoctor = async (doctorId) => {
   try {
     const res = await axios.delete("http://localhost:8081/doctors/" + doctorId);
+    window.location.reload();
     return res.data;
   } catch (err) {
     return { error: err };

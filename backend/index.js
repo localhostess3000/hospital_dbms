@@ -151,6 +151,24 @@ app.post("/patients", (req, res) => {
   });
 });
 
+app.delete("/doctors/:id", (req, res) => {
+  const doctorId = req.params.id;
+
+  // First, delete any references in the patient_doctor table
+  const deletePatientDoctorQuery = "DELETE FROM patient_doctor WHERE DoctorID = ?";
+  db.query(deletePatientDoctorQuery, [doctorId], (err) => {
+    if (err) return res.json({ error: err.sqlMessage });
+
+    // Then delete the doctor from the doctor table
+    const deleteDoctorQuery = "DELETE FROM doctor WHERE DoctorID = ?";
+    db.query(deleteDoctorQuery, [doctorId], (err, data) => {
+      if (err) return res.json({ error: err.sqlMessage });
+      return res.json({ success: "Doctor deleted successfully", data });
+    });
+  });
+});
+
+
 app.listen(8081, () => {
   console.log("listening on 8081");
 });

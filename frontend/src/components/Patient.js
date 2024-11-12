@@ -34,7 +34,7 @@ const Patient = ({ patientId, FirstName, LastName, Gender, DOB, AssignedDoctorID
           </div>
           <div className="flex items-center justify-between">
             <p className="py-1 px-3 bg-slate-200 w-fit text-2xl font-semibold rounded">
-              Assigned Doctor: {DoctorFirstName ? DoctorFirstName : "Unassigned~~"} &nbsp;
+              Assigned Doctor: {DoctorFirstName ? DoctorFirstName : "Unassigned"} &nbsp;
               {DoctorLastName ? DoctorLastName : ""}
             </p>
           </div>
